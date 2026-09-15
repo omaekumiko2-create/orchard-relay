@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Orchard Relay · iOS 编译台</title><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/styles.css"><script src="/app.js" defer></script></head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><img src="/icon.svg" width="38" height="38" alt=""><div>Orchard<span>RELAY</span></div></div>
+    <div class="nav-label">工作空间</div><button class="nav active" id="nav-build"><span>▦</span> iOS 编译台 <b>01</b></button>
+    <button class="nav" id="settings-open"><span>⚙</span> 连接设置</button>
+    <div class="side-bottom"><div class="connection-line"><i id="side-dot"></i><b id="side-status">等待连接</b></div><p id="side-host">你的 Mac</p><small>Windows 发起 · Mac 编译<br>手机连接到 Mac 即可</small></div>
+  </aside>
+  <main>
+    <header><div class="breadcrumb">工作空间 <span>/</span> iOS 编译台</div><div class="local-badge"><i></i> 本机控制台</div></header>
+    <section class="heading"><div><div class="eyebrow">YOUR APPS, ONE PLACE</div><h1>编译，从这里开始<span>。</span></h1><p>把代码交给 Mac，把时间留给创造。</p></div><button class="button subtle" id="refresh"><span>↻</span> 检查连接</button></section>
+    <section class="machine" aria-label="构建主机与设备"><div class="machine-icon">⌘</div><div class="machine-copy"><div class="machine-title"><b id="host-name">你的 Mac</b><span class="badge" id="host-state">未检查</span></div><p id="host-info">通过 SSH 连接你的 Mac 构建主机</p></div><div class="machine-divider"></div><div class="device-icon">▯</div><div class="device-copy"><label for="device">安装到 iPhone</label><select id="device"><option value="">检查连接后选择设备</option></select><small id="device-note">手机接在 你的 Mac · 已信任 · 已开启开发者模式</small></div></section>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <details class="signing-options"><summary>本次构建的签名钥匙串（可选）</summary><label>Mac 登录钥匙串密码<input id="keychain-password" type="password" autocomplete="off" placeholder="已解锁且签名可用时留空"></label><p>只用于下一次新构建，经 SSH 传送；不保存到配置、历史或日志。每次需要时重新输入。</p></details><section class="project-section"><div class="section-head"><h2>我的项目 <span id="project-count">00</span></h2><button class="text-button" id="add-project">＋ 添加项目</button></div><div id="projects" class="project-grid"></div></section>
+    <section class="activity"><div class="section-head"><div class="history-heading"><h2>构建记录</h2><span id="queue-info">所有任务</span></div><span class="subtext">记录保存在本机</span></div>
+      <div class="activity-layout"><div id="history" class="history-list"></div><div class="log-panel"><div class="log-head"><div><span class="terminal-mark">›_</span><b id="log-title">构建日志</b><span id="log-status"></span></div><button id="download-log" class="log-link" disabled>导出日志 ↗</button></div><div id="job-detail" class="job-detail">选择一条构建记录，查看进度与日志。</div><pre id="log" tabindex="0">准备就绪。\n\n选择一个项目，开始你的第一次远程构建。</pre><div class="log-foot"><span id="log-meta">日志会在构建过程中持续更新</span><div><button class="log-link" id="cancel-job" hidden>取消任务</button><button class="log-link" id="install-version" hidden>安装此版本 ↗</button><button class="log-link" id="download-artifact" hidden>下载 .app.zip ↓</button><button class="log-link" id="retry-job" hidden>重新构建 ↗</button></div></div></div></div>
+    </section>
+    <footer><span><i></i> 通过 OpenSSH 安全连接</span><span>源码快照 → Xcode 编译 → iPhone 安装</span><span>ORCHARD RELAY / 0.1</span></footer>
+  </main>
+  <dialog id="project-dialog"><form id="project-form"><div class="dialog-head"><div><div class="eyebrow">PROJECT SETTINGS</div><h2 id="project-dialog-title">添加项目</h2></div><button type="button" class="close-dialog" aria-label="关闭">×</button></div><p class="dialog-description">支持原生 Xcode 工程。同步当前 Windows 工作目录中的 Git 源文件。</p><div class="form-grid">
+    <label>项目名称<input name="name" required placeholder="My App"></label><label>项目 ID<input name="id" required pattern="[a-z0-9][a-z0-9-]{0,63}" placeholder="my-app"></label>
+    <label class="full">Windows 源码目录<input name="localRoot" required placeholder="C:\Users\…\Documents\GitHub\MyApp"></label>
+    <label class="full">Mac 原仓库目录<input name="remoteRoot" required placeholder="~/Documents/GitHub/MyApp"></label>
+    <label class="full">Xcode 工程路径（相对于源码根目录）<input name="projectPath" required placeholder="ios/MyApp.xcodeproj"></label>
+    <label>Scheme<input name="scheme" required placeholder="MyApp"></label><label>Bundle ID<input name="bundleId" required placeholder="com.example.myapp"></label>
+    <label>默认构建配置<select name="configuration"><option>Debug</option><option>Release</option></select></label><label>Team ID（可选）<input name="team" placeholder="留空沿用工程签名"></label>
+    <label class="full">同步目录（每行一个相对路径）<textarea name="includePaths" required rows="2" placeholder="ios"></textarea></label>
+    <label class="full">复用的 Mac 本地 .xcconfig（可选，每行一个相对路径）<textarea name="macConfigFiles" rows="2" placeholder="ios/MyApp/Config.local.xcconfig"></textarea></label>
+  </div><div class="form-error" id="project-error" role="alert"></div><div class="dialog-actions"><button class="button primary" type="submit">保存项目</button></div></form></dialog>
+  <dialog id="settings-dialog"><form id="settings-form"><div class="dialog-head"><div><div class="eyebrow">CONNECTION</div><h2>连接设置</h2></div><button type="button" class="close-dialog" aria-label="关闭">×</button></div><p class="dialog-description">使用 Windows OpenSSH 和 SSH 配置中的主机别名。先在终端完成密钥登录并确认 Mac 主机指纹。</p><label>SSH 主机别名<input name="sshHost" required placeholder="build-mac" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]{0,127}"></label><label>SSH 配置文件（可选）<input name="sshConfigFile" placeholder="留空使用默认的 ~/.ssh/config"></label><div class="form-error" id="settings-error" role="alert"></div><div class="dialog-actions"><button class="button primary" type="submit">保存连接</button></div></form></dialog>
+</body></html>
