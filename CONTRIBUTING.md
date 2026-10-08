@@ -1,5 +1,7 @@
 # Contributing
 
+**English** · [简体中文](CONTRIBUTING.zh-CN.md)
+
 1. Open an issue describing the problem or intended change. Use synthetic examples and remove private paths and identifiers from logs.
 2. Install Node.js 22+, then run `npm ci` and `npm test`.
 3. Run `npm start` for the desktop app. Local development state lives in your app data directory and must never be committed.

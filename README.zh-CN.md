@@ -10,7 +10,7 @@
 
 1. 安装 Releases 中的 `OrchardRelay-Setup-0.1.0.exe`，桌面会出现 **Orchard Relay**。运行时已包含在安装包中，无需安装 Node.js。
 2. Windows 需要 Git、OpenSSH（`ssh` 和 `sftp`）及 `tar`；Mac 需要 Xcode、Python 3、远程登录和可用签名。
-3. 按 [SSH 配置指南](docs/SETUP.md) 配置密钥登录，先在终端确认主机指纹及免交互连接。
+3. 按 [SSH 配置指南](docs/SETUP.zh-CN.md) 配置密钥登录，先在终端确认主机指纹及免交互连接。
 4. 打开「连接设置」，填写 SSH 主机别名；使用独立 SSH 配置文件时填写其绝对路径。
 5. 点击「添加项目」，填写源码目录、工程相对路径、Scheme、Bundle ID、同步目录等。
 6. 手机接在 Mac 上，解锁并信任 Mac，开启开发者模式。点击「检查连接」后开始构建。
@@ -47,4 +47,4 @@ Mac 原仓库作为本地配置来源，构建使用独立副本。安装操作�
 - 当前安装包没有 Windows 代码签名，下载后可与 Release 的 `SHA256SUMS.txt` 核对。
 - 历史与缓存不会自动清理。
 
-开发命令、许可证和贡献指南见 [English README](README.md)。
+开发命令和许可证见 [English README](README.md)；另见[贡献指南](CONTRIBUTING.zh-CN.md)、[安全说明](SECURITY.zh-CN.md)和[验证记录](docs/VALIDATION.zh-CN.md)。

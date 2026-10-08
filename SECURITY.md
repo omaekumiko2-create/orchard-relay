@@ -1,5 +1,7 @@
 # Security
 
+**English** · [简体中文](SECURITY.zh-CN.md)
+
 Orchard Relay assumes that the Windows user, the Mac SSH account, and the Xcode project being built are trusted. Xcode projects can execute build scripts. Do not build untrusted repositories with access to your signing identity.
 
 The desktop renderer has no Node.js integration, runs in a sandbox, and cannot navigate to external origins. The loopback API requires a random session token and validates Host and Origin. This is not an isolation boundary against other programs running as your Windows user.

@@ -1,5 +1,7 @@
 # v0.1.0 validation
 
+**English** · [简体中文](VALIDATION.zh-CN.md)
+
 Local verification on 2026-09-16:
 
 - Windows: eight automated checks passed for source snapshots, path validation, atomic persistence, SSH argument validation, configuration isolation, and HTTP authentication/Host/Origin enforcement.

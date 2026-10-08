@@ -1,5 +1,7 @@
 # SSH setup
 
+**English** · [简体中文](SETUP.zh-CN.md)
+
 ## 1. Prepare the Mac
 
 Enable **System Settings → General → Sharing → Remote Login** for the intended build user. Install Xcode and its command-line tools, finish Xcode's first-run setup, and sign in to the Apple developer team that owns your app identifier.
