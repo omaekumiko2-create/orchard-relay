@@ -6,7 +6,7 @@
 
 A Windows desktop app for sending your saved Xcode project sources to a Mac over SSH, building and signing with Xcode, and installing onto an iPhone connected to that Mac.
 
-[简体中文](README.zh-CN.md) · [Download for Windows](https://github.com/omaekumiko2-create/orchard-relay/releases/latest) · [Setup](docs/SETUP.md)
+[English](README.md) | [简体中文](README.zh-CN.md) · [Download for Windows](https://github.com/omaekumiko2-create/orchard-relay/releases/latest) · [Setup](docs/SETUP.md)
 
 ## Features
 
@@ -32,7 +32,7 @@ The v0.1 interface is in Simplified Chinese; English and Chinese setup guides ar
 
 Click **仅编译** to build without a phone, or **安装此版本** in a completed build to install its existing artifact.
 
-Closing the window leaves the app in the system tray so the queue can continue. Use the tray menu to exit. After a full exit, already-started Mac jobs continue; source transfers interrupted before remote start need retrying.
+Closing the window leaves the app in the system tray so the queue can continue. Double-clicking the desktop icon opens the existing window. Use the tray menu to exit. After a full exit, already-started Mac jobs continue; source transfers interrupted before remote start need retrying.
 
 ## Requirements
 
@@ -45,12 +45,20 @@ Closing the window leaves the app in the system tray so the queue can continue. 
 
 No cloud build service or Apple account credentials are included. Signing and provisioning are managed by Xcode on your Mac. A Mac is still required.
 
+## Signing and installation notes
+
+Prepare the developer account, certificates, and provisioning profiles matching the Bundle ID on your Mac first. Allowing Xcode to update provisioning profiles automatically does not replace developer-account permissions.
+
+If an SSH build cannot access the login keychain, expand **本次构建的签名钥匙串** (Signing keychain for this build) and enter its password. It is used only for the next new build, never written to configuration, history, or logs, and its in-memory reference is cleared after the job starts. SSH login still uses SSH keys, not this password. If a signing private key requires interactive confirmation, configure access for the relevant signing tools in the Mac keychain. Do not upload certificates or private keys to this repository.
+
+The original Mac repository supplies local configuration; builds use independent copies. Installation does not proactively uninstall the application. Changing the Bundle ID installs a different application, and old data does not migrate automatically.
+
 ## Data and security
 
-- The desktop app stores settings and history under `%APPDATA%/Orchard Relay`, separately from application files and updates.
+- The desktop app stores settings and history under `%APPDATA%/Orchard Relay`, separately from application files and updates. Uninstalling preserves user data by default.
 - The source-development server uses `data/` by default. `ORCHARD_DATA_DIR` overrides it.
 - Mac work happens under `~/.local/share/orchard-relay/`. Original repositories are not overwritten by the build worker.
-- `.env` files, signing keys, provisioning profiles, Xcode user state, and configured local `.xcconfig` files are excluded from snapshots. Review your sync directories: arbitrary secrets embedded in ordinary source files cannot be automatically detected.
+- `.env` files, signing keys, provisioning profiles, Xcode user state, and configured local `.xcconfig` files, including `Secrets.xcconfig` and `Config.local.xcconfig`, are excluded from snapshots. Review your sync directories: arbitrary secrets embedded in ordinary source files cannot be automatically detected.
 - SSH host-key checking is mandatory. SSH login passwords are not collected; configure keys or an agent first.
 - The UI service binds to loopback on a random port in the desktop app. API calls require a random session token and pass Host/Origin checks. The renderer is sandboxed with Node integration disabled.
 - No analytics, remote telemetry, or automatic updates. Local settings, jobs, keys, and application source snapshots are not part of this repository or release package.
